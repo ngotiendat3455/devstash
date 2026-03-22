@@ -3,6 +3,9 @@
 🚀 Centralized Developer Knowledge Hub
 
 ---
+## **Design Reference**
+
+See `@context/screenshots/dashboard-mockup.png` for the main dashboard design. It does not have to be pixel perfect. Use it as a base.
 
 ## DevStash Project Specifications
 
