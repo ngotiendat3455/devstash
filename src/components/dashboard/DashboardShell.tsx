@@ -23,12 +23,14 @@ import {
   Star,
   Terminal,
   X,
+  type LucideIcon,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import type { DashboardCollectionCardData } from "@/lib/db/collections";
 import { mockData, type MockCollection, type MockItem, type MockItemType } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
@@ -42,13 +44,32 @@ const accentClasses: Record<string, string> = {
   pink: "before:bg-pink-500",
 };
 
-const typeIconMap: Record<string, typeof Code2> = {
+const iconColorClasses: Record<string, string> = {
+  blue: "text-sky-400",
+  zinc: "text-slate-400",
+  yellow: "text-yellow-400",
+  orange: "text-orange-400",
+  violet: "text-violet-400",
+  emerald: "text-emerald-400",
+  pink: "text-pink-400",
+};
+
+const typeIconMap: Record<string, LucideIcon> = {
+  Code: Code2,
   "code-2": Code2,
+  Sparkles,
   sparkles: Sparkles,
+  Terminal,
   terminal: Terminal,
+  StickyNote: NotebookPen,
+  NotebookPen: NotebookPen,
   "notebook-pen": NotebookPen,
+  File: FileText,
+  FileText: FileText,
   "file-text": FileText,
+  Image: ImageIcon,
   image: ImageIcon,
+  Link: LinkIcon,
   link: LinkIcon,
 };
 
@@ -142,11 +163,11 @@ function SidebarSectionLabel({
   );
 }
 
-function CollectionCard({ collection }: { collection: MockCollection }) {
-  const relatedTypes = collection.itemTypeIds
-    .map((itemTypeId) => getTypeById(itemTypeId))
-    .filter((type): type is MockItemType => Boolean(type));
-
+function DashboardCollectionCard({
+  collection,
+}: {
+  collection: DashboardCollectionCardData;
+}) {
   return (
     <Card
       className={`relative overflow-hidden before:absolute before:inset-y-5 before:left-0 before:w-0.5 ${accentClasses[collection.accentColor] ?? "before:bg-slate-500"}`}
@@ -160,7 +181,12 @@ function CollectionCard({ collection }: { collection: MockCollection }) {
                 <Star className="size-4 fill-yellow-400 text-yellow-400" />
               ) : null}
             </div>
-            <CardDescription>{collection.itemCount} items</CardDescription>
+            <CardDescription>
+              {collection.itemCount} items
+              {collection.typeCount > 0
+                ? ` | ${collection.typeCount} type${collection.typeCount === 1 ? "" : "s"}`
+                : ""}
+            </CardDescription>
           </div>
           <Button variant="ghost" size="icon" className="size-8 rounded-lg">
             <MoreHorizontal className="size-4" />
@@ -170,10 +196,15 @@ function CollectionCard({ collection }: { collection: MockCollection }) {
       <CardContent className="space-y-5">
         <p className="text-sm text-slate-400">{collection.description}</p>
         <div className="flex items-center gap-3 text-slate-400">
-          {relatedTypes.map((itemType) => {
+          {collection.itemTypes.map((itemType) => {
             const Icon = typeIconMap[itemType.icon] ?? FileText;
 
-            return <Icon key={itemType.id} className="size-4" />;
+            return (
+              <Icon
+                key={itemType.id}
+                className={cn("size-4", iconColorClasses[itemType.accentColor] ?? "text-slate-400")}
+              />
+            );
           })}
         </div>
       </CardContent>
@@ -341,7 +372,11 @@ function DashboardSidebar({
   );
 }
 
-export function DashboardShell() {
+export function DashboardShell({
+  collections,
+}: {
+  collections: DashboardCollectionCardData[];
+}) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const pinnedItems = mockData.items.filter((item) => item.isPinned);
@@ -445,8 +480,8 @@ export function DashboardShell() {
                   </button>
                 </div>
                 <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                  {mockData.collections.map((collection) => (
-                    <CollectionCard key={collection.id} collection={collection} />
+                  {collections.map((collection) => (
+                    <DashboardCollectionCard key={collection.id} collection={collection} />
                   ))}
                 </div>
               </section>

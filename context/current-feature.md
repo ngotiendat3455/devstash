@@ -2,7 +2,7 @@
 
 ## Feature Name
 
-Prisma + Neon PostgreSQL Setup
+Dashboard Collections
 
 ## Status
 
@@ -10,27 +10,35 @@ Completed
 
 ## Goals
 
-- Set up Prisma ORM with Neon PostgreSQL for the application database layer.
-- Create the initial Prisma schema based on the current data models documented in `@context/project-overview.md`.
-- Include the required NextAuth models: `Account`, `Session`, and `VerificationToken`.
-- Add appropriate indexes for expected queries and relation constraints.
-- Configure cascade deletes where ownership relationships require dependent records to be removed safely.
-- Follow the project database workflow by creating migrations with `prisma migrate dev` rather than pushing schema changes directly.
+- Replace the dummy recent collections shown in the main dashboard area with real Neon database data loaded through Prisma.
+- Create `src/lib/db/collections.ts` with collection-focused data fetching helpers.
+- Fetch dashboard collections directly in a server component instead of `@src/lib/mock-data.ts`.
+- Derive each collection card border color from the most-used content type in that collection.
+- Show small icons for all item types present in each collection.
+- Keep the existing dashboard card design while updating the collection stats display.
 
 ## Notes
 
-- Source spec: `@context/features/database-spec.md`
-- Database target: Neon PostgreSQL (serverless)
-- ORM requirement: Prisma 7
-- Important workflow note: use a development branch database in `DATABASE_URL`, keep production separate, and always create migrations unless explicitly told otherwise.
-- Relevant references:
-  - `@context/project-overview.md`
-  - `@context/coding-standards.md`
-  - Prisma 7 upgrade guide: `https://www.prisma.io/docs/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-7`
-  - Prisma setup guide: `https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres`
+- Source spec: `@context/features/dashboard-collections-spec.md`
+- UI reference: `@context/screenshots/dashboard-ui-main.png`
+- Scope note: do not render collection items beneath the cards yet.
+- Data source note: replace only the main dashboard collection cards that currently use `@src/lib/mock-data.ts`.
+- Temporary data-source note: until auth is wired into the dashboard, the server query reads collections for the seeded demo user `demo@devstash.io`.
 
 ## History
 
+- 2026-03-24: Completed feature `Dashboard Collections`
+- 2026-03-24: Verified dashboard collections with `npm run lint` and `npm run build`
+- 2026-03-24: Implemented Prisma-backed dashboard collection cards with server-side fetching in `/dashboard`
+- 2026-03-24: Added `src/lib/db/collections.ts` to load collection card data, derive accent colors, and expose type icons for the dashboard
+- 2026-03-24: Created branch `feature/dashboard-collections`
+- 2026-03-24: Set current feature to `Dashboard Collections` and marked it `In Progress`
+- 2026-03-24: Synced current feature goals with `context/features/dashboard-collections-spec.md`
+- 2026-03-24: Completed feature `Development Seed Data`
+- 2026-03-24: Verified seed data changes with `npm run lint` and `npm run build`
+- 2026-03-24: Replaced `prisma/seed.ts` with an idempotent demo seed for the user, system item types, collections, tags, and sample items
+- 2026-03-24: Added `bcryptjs` as a direct dependency for password hashing in the seed script
+- 2026-03-24: Set current feature to `Development Seed Data` and synced goals with `context/features/seed-spec.md`
 - 2026-03-24: Completed feature `Prisma + Neon PostgreSQL Setup`
 - 2026-03-24: Applied initial Prisma migration `20260324160402_init` with `prisma migrate dev`
 - 2026-03-24: Verified migration state with `prisma migrate status`
