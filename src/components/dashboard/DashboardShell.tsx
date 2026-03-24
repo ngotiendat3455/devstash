@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import {
   ChevronLeft,
@@ -32,8 +33,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { DashboardCollectionCardData } from "@/lib/db/collections";
-import type { DashboardItemCardData } from "@/lib/db/items";
-import { mockData, type MockCollection, type MockItemType } from "@/lib/mock-data";
+import type {
+  DashboardItemCardData,
+  DashboardSidebarCollectionData,
+  DashboardSidebarData,
+  DashboardSidebarItemTypeData,
+  DashboardStatsData,
+} from "@/lib/db/items";
 import { cn } from "@/lib/utils";
 
 const accentClasses: Record<string, string> = {
@@ -54,6 +60,16 @@ const iconColorClasses: Record<string, string> = {
   violet: "text-violet-400",
   emerald: "text-emerald-400",
   pink: "text-pink-400",
+};
+
+const dotColorClasses: Record<string, string> = {
+  blue: "bg-sky-400",
+  zinc: "bg-slate-400",
+  yellow: "bg-yellow-400",
+  orange: "bg-orange-400",
+  violet: "bg-violet-400",
+  emerald: "bg-emerald-400",
+  pink: "bg-pink-400",
 };
 
 const iconSurfaceClasses: Record<string, string> = {
@@ -106,14 +122,14 @@ function SidebarTypeRow({
   itemType,
   collapsed,
 }: {
-  itemType: MockItemType;
+  itemType: DashboardSidebarItemTypeData;
   collapsed: boolean;
 }) {
   const Icon = typeIconMap[itemType.icon] ?? FileText;
 
   return (
-    <button
-      type="button"
+    <Link
+      href={itemType.href}
       title={itemType.name}
       className={cn(
         "flex w-full items-center rounded-xl px-3 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white",
@@ -123,26 +139,23 @@ function SidebarTypeRow({
       <Icon className="size-4 shrink-0 text-slate-400" />
       {!collapsed ? (
         <>
-          <span className="flex-1 text-left">{itemType.name}</span>
+          <span className="flex-1 text-left">{itemType.label}</span>
           <span className="text-xs text-slate-500">{itemType.count}</span>
         </>
       ) : null}
-    </button>
+    </Link>
   );
 }
 
 function SidebarCollectionRow({
   collection,
   collapsed,
-  showCount,
 }: {
-  collection: MockCollection;
+  collection: DashboardSidebarCollectionData;
   collapsed: boolean;
-  showCount?: boolean;
 }) {
   return (
-    <button
-      type="button"
+    <div
       title={collection.name}
       className={cn(
         "flex w-full items-center rounded-xl px-3 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white",
@@ -155,11 +168,17 @@ function SidebarCollectionRow({
           <span className="flex-1 truncate text-left">{collection.name}</span>
           {collection.isFavorite ? (
             <Star className="size-3.5 shrink-0 fill-yellow-400 text-yellow-400" />
-          ) : null}
-          {showCount ? <span className="text-xs text-slate-500">{collection.itemCount}</span> : null}
+          ) : (
+            <span
+              className={cn(
+                "size-2.5 shrink-0 rounded-full",
+                dotColorClasses[collection.accentColor] ?? "bg-slate-400",
+              )}
+            />
+          )}
         </>
       ) : null}
-    </button>
+    </div>
   );
 }
 
@@ -279,14 +298,13 @@ function DashboardItemCard({ item }: { item: DashboardItemCardData }) {
 
 function DashboardSidebar({
   collapsed,
+  data,
   onClose,
 }: {
   collapsed: boolean;
+  data: DashboardSidebarData;
   onClose?: () => void;
 }) {
-  const favoriteCollections = mockData.collections.filter((collection) => collection.isFavorite);
-  const otherCollections = mockData.collections.filter((collection) => !collection.isFavorite);
-
   return (
     <div className="flex h-full flex-col border-r border-white/10 bg-black/30">
       <div
@@ -329,7 +347,7 @@ function DashboardSidebar({
             <Menu className="size-4" />
           </div>
           <div className="space-y-1">
-            {mockData.itemTypes.map((itemType) => (
+            {data.itemTypes.map((itemType) => (
               <SidebarTypeRow key={itemType.id} itemType={itemType} collapsed={collapsed} />
             ))}
           </div>
@@ -349,28 +367,27 @@ function DashboardSidebar({
           <div className="space-y-2">
             <SidebarSectionLabel label="Favorites" collapsed={collapsed} />
             <div className="space-y-1">
-              {favoriteCollections.map((collection) => (
-                <SidebarCollectionRow
-                  key={collection.id}
-                  collection={collection}
-                  collapsed={collapsed}
-                />
+              {data.favoriteCollections.map((collection) => (
+                <SidebarCollectionRow key={collection.id} collection={collection} collapsed={collapsed} />
               ))}
             </div>
           </div>
 
           <div className="space-y-2">
-            <SidebarSectionLabel label="All Collections" collapsed={collapsed} />
+            <SidebarSectionLabel label="Recent" collapsed={collapsed} />
             <div className="space-y-1">
-              {otherCollections.map((collection) => (
-                <SidebarCollectionRow
-                  key={collection.id}
-                  collection={collection}
-                  collapsed={collapsed}
-                  showCount
-                />
+              {data.recentCollections.map((collection) => (
+                <SidebarCollectionRow key={collection.id} collection={collection} collapsed={collapsed} />
               ))}
             </div>
+            {!collapsed ? (
+              <Link
+                href="/collections"
+                className="inline-flex px-2 text-sm font-medium text-slate-400 transition hover:text-white"
+              >
+                View all collections
+              </Link>
+            ) : null}
           </div>
         </section>
       </div>
@@ -383,12 +400,12 @@ function DashboardSidebar({
       >
         <div className={cn("flex items-center", collapsed ? "justify-center" : "gap-3")}>
           <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/90 text-sm font-semibold text-slate-950">
-            {mockData.currentUser.name.slice(0, 1)}
+            {data.user.initial}
           </div>
           {!collapsed ? (
             <div className="space-y-0.5">
-              <p className="text-sm font-medium text-white">{mockData.currentUser.name}</p>
-              <p className="text-xs text-slate-500">{mockData.currentUser.email}</p>
+              <p className="text-sm font-medium text-white">{data.user.name}</p>
+              <p className="text-xs text-slate-500">{data.user.email}</p>
             </div>
           ) : null}
         </div>
@@ -406,10 +423,14 @@ export function DashboardShell({
   collections,
   pinnedItems,
   recentItems,
+  sidebarData,
+  stats,
 }: {
   collections: DashboardCollectionCardData[];
   pinnedItems: DashboardItemCardData[];
   recentItems: DashboardItemCardData[];
+  sidebarData: DashboardSidebarData;
+  stats: DashboardStatsData;
 }) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -423,7 +444,7 @@ export function DashboardShell({
             isSidebarCollapsed ? "w-[92px]" : "w-[272px]",
           )}
         >
-          <DashboardSidebar collapsed={isSidebarCollapsed} />
+          <DashboardSidebar collapsed={isSidebarCollapsed} data={sidebarData} />
         </aside>
 
         {isMobileSidebarOpen ? (
@@ -437,6 +458,7 @@ export function DashboardShell({
             <aside className="relative z-10 h-full w-[88vw] max-w-[320px]">
               <DashboardSidebar
                 collapsed={false}
+                data={sidebarData}
                 onClose={() => setIsMobileSidebarOpen(false)}
               />
             </aside>
@@ -500,17 +522,27 @@ export function DashboardShell({
 
           <div className="flex-1 px-4 py-8 sm:px-6 lg:px-8">
             <div className="mx-auto flex w-full max-w-7xl flex-col gap-10">
-              <section className="space-y-2">
+              <section className="space-y-3">
                 <h1 className="text-4xl font-semibold tracking-tight text-white">Dashboard</h1>
                 <p className="text-base text-slate-400">Your developer knowledge hub</p>
+                <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
+                  <span>{stats.totalItems} items</span>
+                  <span className="h-1 w-1 rounded-full bg-slate-700" />
+                  <span>{stats.totalCollections} collections</span>
+                  <span className="h-1 w-1 rounded-full bg-slate-700" />
+                  <span>{stats.totalItemTypes} system types</span>
+                </div>
               </section>
 
               <section className="space-y-5">
                 <div className="flex items-center justify-between gap-4">
                   <h2 className="text-2xl font-semibold tracking-tight text-white">Collections</h2>
-                  <button className="text-sm font-medium text-slate-400 transition hover:text-white">
+                  <Link
+                    href="/collections"
+                    className="text-sm font-medium text-slate-400 transition hover:text-white"
+                  >
                     View all
-                  </button>
+                  </Link>
                 </div>
                 <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
                   {collections.map((collection) => (

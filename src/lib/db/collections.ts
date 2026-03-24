@@ -1,42 +1,20 @@
 import "server-only";
 
+import {
+  DEFAULT_DASHBOARD_USER_EMAIL,
+  getDashboardAccentColor,
+  normalizeDashboardIconName,
+  type DashboardAccentColor,
+  type DashboardIconName,
+} from "@/lib/db/items";
 import { prisma } from "@/lib/prisma";
-
-const DEFAULT_DASHBOARD_USER_EMAIL = "demo@devstash.io";
-
-const ACCENT_COLOR_BY_TYPE_SLUG = {
-  snippets: "blue",
-  prompts: "violet",
-  commands: "orange",
-  notes: "yellow",
-  files: "zinc",
-  images: "pink",
-  links: "emerald",
-} as const;
-
-const ICON_NAME_BY_ITEM_TYPE_ICON = {
-  Code: "code-2",
-  Code2: "code-2",
-  Sparkles: "sparkles",
-  Terminal: "terminal",
-  StickyNote: "notebook-pen",
-  NotebookPen: "notebook-pen",
-  File: "file-text",
-  FileText: "file-text",
-  Image: "image",
-  Link: "link",
-} as const;
-
-type AccentColor = (typeof ACCENT_COLOR_BY_TYPE_SLUG)[keyof typeof ACCENT_COLOR_BY_TYPE_SLUG];
-type NormalizedIconName =
-  (typeof ICON_NAME_BY_ITEM_TYPE_ICON)[keyof typeof ICON_NAME_BY_ITEM_TYPE_ICON];
 
 export interface DashboardCollectionCardItemType {
   id: string;
   name: string;
   slug: string;
-  icon: NormalizedIconName;
-  accentColor: AccentColor;
+  icon: DashboardIconName;
+  accentColor: DashboardAccentColor;
   itemCount: number;
 }
 
@@ -47,24 +25,8 @@ export interface DashboardCollectionCardData {
   isFavorite: boolean;
   itemCount: number;
   typeCount: number;
-  accentColor: AccentColor;
+  accentColor: DashboardAccentColor;
   itemTypes: DashboardCollectionCardItemType[];
-}
-
-function normalizeIconName(icon: string | null): NormalizedIconName {
-  if (!icon) {
-    return "file-text";
-  }
-
-  return ICON_NAME_BY_ITEM_TYPE_ICON[icon as keyof typeof ICON_NAME_BY_ITEM_TYPE_ICON] ?? "file-text";
-}
-
-function getAccentColor(slug: string | null): AccentColor {
-  if (!slug) {
-    return "zinc";
-  }
-
-  return ACCENT_COLOR_BY_TYPE_SLUG[slug as keyof typeof ACCENT_COLOR_BY_TYPE_SLUG] ?? "zinc";
 }
 
 export async function getDashboardCollections(
@@ -140,8 +102,8 @@ export async function getDashboardCollections(
         id: itemType.id,
         name: itemType.name,
         slug: itemType.slug,
-        icon: normalizeIconName(itemType.icon),
-        accentColor: getAccentColor(itemType.slug),
+        icon: normalizeDashboardIconName(itemType.icon),
+        accentColor: getDashboardAccentColor(itemType.slug),
         itemCount: itemType.itemCount,
       }));
 
