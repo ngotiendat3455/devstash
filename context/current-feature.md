@@ -1,20 +1,23 @@
-# Current Feature
-
-## Feature Name
-
-<!-- No active feature loaded -->
+# Current Feature: Items List View
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Goals will be populated by /feature load -->
+- Create a dynamic route at `/items/[type]` for type-filtered item pages.
+- Fetch and display items filtered by the selected item type.
+- Render the items in a responsive grid of `ItemCard` components.
+- Use a two-column layout on medium screens and up.
+- Give each item card a left border colored by the item type.
+- Follow existing codebase patterns for routing, data fetching, and UI structure.
 
 ## Notes
 
-<!-- Notes will be populated by /feature load -->
+- Spec source: `context/features/item-list-view-spec.md`
+- Example routes include `/items/snippets` and `/items/notes`.
+- This feature is focused on the listing page, not full item CRUD.
 
 ## History
 
