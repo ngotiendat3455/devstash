@@ -1,5 +1,6 @@
 import "server-only";
 
+import { getUserInitials } from "@/lib/auth/user";
 import { prisma } from "@/lib/prisma";
 
 export const DEFAULT_DASHBOARD_USER_EMAIL = "demo@devstash.io";
@@ -66,7 +67,8 @@ export interface DashboardSidebarCollectionData {
 
 export interface DashboardSidebarUserData {
   email: string;
-  initial: string;
+  image: string | null;
+  initials: string;
   name: string;
 }
 
@@ -107,12 +109,6 @@ function getTypeOrder(slug: string) {
 
 function getItemTypeLabel(slug: string) {
   return slug.charAt(0).toUpperCase() + slug.slice(1);
-}
-
-function getUserInitial(name: string | null | undefined, email: string) {
-  const source = name?.trim() || email.trim();
-
-  return source.charAt(0).toUpperCase();
 }
 
 function getMostUsedTypeSlug(items: Array<{ type: { slug: string } }>) {
@@ -326,6 +322,7 @@ export async function getDashboardSidebarData(
       },
       select: {
         email: true,
+        image: true,
         name: true,
       },
     }),
@@ -409,7 +406,8 @@ export async function getDashboardSidebarData(
     recentCollections: sidebarCollections.filter((collection) => !collection.isFavorite).slice(0, 6),
     user: {
       email: user?.email ?? userEmail,
-      initial: getUserInitial(user?.name, user?.email ?? userEmail),
+      image: user?.image ?? null,
+      initials: getUserInitials(user?.name, user?.email ?? userEmail),
       name: user?.name ?? "Demo User",
     },
   };
