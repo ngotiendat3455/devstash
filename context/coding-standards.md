@@ -95,3 +95,10 @@ Example v4 configuration:
 - No commented-out code unless specified
 - No unused imports or variables
 - Keep functions under 50 lines when possible
+
+## Database
+
+- Use Prisma ORM for all database operations
+- Always use `prisma migrate dev` for schema changes (not `db push`)
+- Run `prisma migrate status` before committing to verify migrations are in sync
+- Production deployments must run `prisma migrate deploy` before the app starts
