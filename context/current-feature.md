@@ -2,23 +2,19 @@
 
 ## Feature Name
 
-Add Pro Badge To Sidebar
+<!-- No active feature loaded -->
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-- Add a subtle but clear `Pro` badge to the sidebar links for Files and Images.
-- Use the shadcn/ui `Badge` component for the pro indicator.
-- Keep the change scoped to the sidebar UI for pro-only item links.
+<!-- Goals will be populated by /feature load -->
 
 ## Notes
 
-- Source spec: `@context/features/add-pro-badge-to-sidebar.md`
-- Scope note: Files and Images are pro-only items and should be labeled accordingly in the sidebar.
-- Visual note: the badge should be noticeable enough to communicate gating, but still feel subtle within the existing sidebar design.
+<!-- Notes will be populated by /feature load -->
 
 ## History
 
@@ -79,3 +75,4 @@ In Progress
 - 2026-03-22: Created branch `feature/dashboard-phase-1`
 - 2026-03-22: Implemented `/dashboard`, dark mode defaults, and shadcn-style UI primitives
 - 2026-03-22: Verified dashboard phase 1 with `npm run lint` and `npm run build`
+- 2026-03-25: Completed feature `Add Pro Badge To Sidebar`
