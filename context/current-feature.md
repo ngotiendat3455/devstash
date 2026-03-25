@@ -1,28 +1,20 @@
-# Current Feature: Profile Page
+# Current Feature
+
+## Feature Name
+
+<!-- No active feature loaded -->
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-- Create the profile page at the `/profile` route.
-- Display user info including email, name, avatar, and account creation date.
-- Show usage stats for total items, total collections, and item-type breakdown.
-- Add account actions for change password and delete account with confirmation.
-- Only show change password for users who signed up with email/password.
-- Keep the route protected and follow existing data-fetching/component patterns.
+<!-- Goals will be populated by /feature load -->
 
 ## Notes
 
-- Spec source: `context/features/profile-spec.md`
-- Avatar logic:
-  - use GitHub avatar when `image` exists
-  - otherwise generate initials from name/email
-- Change password button should only appear for email/password users, not GitHub-only OAuth users
-- Delete account must use a confirmation dialog to avoid accidental removal
-- Item type breakdown should include counts for snippets, prompts, notes, commands, links, files, and images
-- Route should remain protected behind authentication
+<!-- Notes will be populated by /feature load -->
 
 ## History
 
@@ -110,3 +102,4 @@ In Progress
 - 2026-03-25: Completed feature `Auth Setup - NextAuth + GitHub Provider`
 - 2026-03-25: Completed feature `Auth Credentials - Email/Password Provider`
 - 2026-03-25: Completed feature `Auth UI - Sign In, Register & Sign Out`
+- 2026-03-25: Completed feature `Profile Page`
