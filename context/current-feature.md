@@ -1,42 +1,20 @@
-# Current Feature: Auth UI - Sign In, Register & Sign Out
+# Current Feature
+
+## Feature Name
+
+<!-- No active feature loaded -->
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-- Replace the default NextAuth pages with a custom `/sign-in` page.
-- Create a custom `/register` page that posts to `/api/auth/register`.
-- Support both email/password sign-in and GitHub sign-in in the custom auth UI.
-- Add form validation and visible error states for sign-in and registration.
-- Update the dashboard sidebar user area to show avatar or initials, user name, and profile entry point.
-- Add a sign-out action from the sidebar user menu.
+<!-- Goals will be populated by /feature load -->
 
 ## Notes
 
-- Spec source: `context/features/auth-spec-files/auth-phase-3-spec.md`
-- Sign-in page requirements:
-  - email and password fields
-  - "Sign in with GitHub" button
-  - link to `/register`
-  - form validation and error display
-- Register page requirements:
-  - name, email, password, confirm password fields
-  - validate passwords match and email format
-  - submit to `/api/auth/register`
-  - redirect to `/sign-in` on success
-- Sidebar requirements:
-  - show GitHub image when available, otherwise initials from name
-  - clicking the avatar should link to `/profile`
-  - provide a user menu/dropdown with a "Sign out" action
-- Create a reusable avatar component that handles both image and initials fallback
-- Testing target:
-  - `/sign-in` renders the custom page
-  - GitHub and credentials sign-in both work
-  - avatar/user details render in the sidebar
-  - sign-out works and redirects correctly
-  - `/register` creates an account and redirects to sign-in
+<!-- Notes will be populated by /feature load -->
 
 ## History
 
@@ -117,3 +95,4 @@ In Progress
 - 2026-03-25: Completed feature `Add Pro Badge To Sidebar`
 - 2026-03-25: Completed feature `Auth Setup - NextAuth + GitHub Provider`
 - 2026-03-25: Completed feature `Auth Credentials - Email/Password Provider`
+- 2026-03-25: Completed feature `Auth UI - Sign In, Register & Sign Out`
