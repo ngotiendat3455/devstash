@@ -2,31 +2,31 @@
 
 ## Feature Name
 
-Dashboard Stats And Sidebar
+Add Pro Badge To Sidebar
 
 ## Status
 
-Completed
+In Progress
 
 ## Goals
 
-- Display the dashboard stats from Neon database data while preserving the current dashboard layout.
-- Show system item types in the sidebar with their icons and links to `/items/[typename]`.
-- Show actual collection data from the database in the sidebar.
-- Add a `View all collections` link below the sidebar collections list that points to `/collections`.
-- Keep star icons for favorite collections and use a colored circle for recent collections based on the most-used item type.
-- Expand `src/lib/db/items.ts` with the database helpers needed for the stats and sidebar data.
+- Add a subtle but clear `Pro` badge to the sidebar links for Files and Images.
+- Use the shadcn/ui `Badge` component for the pro indicator.
+- Keep the change scoped to the sidebar UI for pro-only item links.
 
 ## Notes
 
-- Source spec: `@context/features/stats-sidebar-spec.md`
-- UI reference: `@context/screenshots/dashboard-ui-main.png`
-- Scope note: keep the existing dashboard layout and design while replacing the remaining sidebar and dashboard stat usage of `@src/lib/mock-data.ts`.
-- Sidebar note: system item types should link to `/items/[typename]`, and the sidebar collections list should use real collection data from Prisma.
-- Collection indicator note: favorites keep the star icon, while non-favorite recent collections use a colored circle derived from the most-used item type in that collection.
+- Source spec: `@context/features/add-pro-badge-to-sidebar.md`
+- Scope note: Files and Images are pro-only items and should be labeled accordingly in the sidebar.
+- Visual note: the badge should be noticeable enough to communicate gating, but still feel subtle within the existing sidebar design.
 
 ## History
 
+- 2026-03-25: Verified add pro badge to sidebar with `npm run lint` and `npm run build`
+- 2026-03-25: Added `Pro` badges to the Files and Images sidebar item type links in `/dashboard`
+- 2026-03-25: Created branch `feature/add-pro-badge-to-sidebar`
+- 2026-03-25: Set current feature to `Add Pro Badge To Sidebar` and marked it `In Progress`
+- 2026-03-25: Synced current feature goals with `context/features/add-pro-badge-to-sidebar.md`
 - 2026-03-25: Completed feature `Dashboard Stats And Sidebar`
 - 2026-03-25: Verified dashboard stats and sidebar with `npm run lint` and `npm run build`
 - 2026-03-25: Replaced the remaining dashboard sidebar mock data with Prisma-backed stats, system item types, collections, and user details
