@@ -1,23 +1,37 @@
-# Current Feature
-
-## Feature Name
-
-<!-- No active feature loaded -->
+# Current Feature: Profile Page
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Goals will be populated by /feature load -->
+- Create the profile page at the `/profile` route.
+- Display user info including email, name, avatar, and account creation date.
+- Show usage stats for total items, total collections, and item-type breakdown.
+- Add account actions for change password and delete account with confirmation.
+- Only show change password for users who signed up with email/password.
+- Keep the route protected and follow existing data-fetching/component patterns.
 
 ## Notes
 
-<!-- Notes will be populated by /feature load -->
+- Spec source: `context/features/profile-spec.md`
+- Avatar logic:
+  - use GitHub avatar when `image` exists
+  - otherwise generate initials from name/email
+- Change password button should only appear for email/password users, not GitHub-only OAuth users
+- Delete account must use a confirmation dialog to avoid accidental removal
+- Item type breakdown should include counts for snippets, prompts, notes, commands, links, files, and images
+- Route should remain protected behind authentication
 
 ## History
 
+- 2026-03-25: Verified profile page with `npm run lint` and `npm run build`
+- 2026-03-25: Replaced the placeholder `/profile` page with authenticated user info, usage stats, item type breakdown, change password, and delete account flows
+- 2026-03-25: Added profile database helpers plus protected API routes for password changes and account deletion
+- 2026-03-25: Created branch `feature/profile-page`
+- 2026-03-25: Set current feature to `Profile Page` and marked it `In Progress`
+- 2026-03-25: Synced current feature goals with `context/features/profile-spec.md`
 - 2026-03-25: Verified auth phase 3 with `npm run lint` and `npm run build`
 - 2026-03-25: Added custom `/sign-in` and `/register` pages, reusable auth UI components, profile page, and a session-aware sidebar user menu with sign out
 - 2026-03-25: Updated auth redirects and custom pages config so protected routes use `/sign-in` instead of the default NextAuth page
