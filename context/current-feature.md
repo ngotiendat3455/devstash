@@ -1,37 +1,20 @@
-# Current Feature: Auth Credentials - Email/Password Provider
+# Current Feature
+
+## Feature Name
+
+<!-- No active feature loaded -->
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-- Add the Credentials provider for email/password authentication.
-- Use `bcryptjs` for password hashing and validation.
-- Add or confirm support for the `password` field on the `User` model.
-- Update the split auth config so `auth.config.ts` uses a placeholder credentials provider.
-- Override the credentials provider in `auth.ts` with real bcrypt-based validation.
-- Create `POST /api/auth/register` for user registration.
-- Preserve GitHub OAuth alongside credentials sign-in.
+<!-- Goals will be populated by /feature load -->
 
 ## Notes
 
-- Spec source: `context/features/auth-spec-files/auth-phase-2-spec.md`
-- Registration route requirements:
-  - accept `name`, `email`, `password`, `confirmPassword`
-  - validate passwords match
-  - reject duplicate users
-  - hash password with `bcryptjs`
-  - create the user and return a success/error response
-- Split config pattern note:
-  - `src/auth.config.ts` should contain a credentials provider with `authorize: () => null`
-  - `src/auth.ts` should override that provider with the actual bcrypt validation logic
-- Testing target:
-  - `curl` registration request succeeds for a new user
-  - `/api/auth/signin` allows email/password sign-in
-  - successful sign-in redirects to `/dashboard`
-  - GitHub OAuth still works
-- Reference: `https://authjs.dev/getting-started/authentication/credentials`
+<!-- Notes will be populated by /feature load -->
 
 ## History
 
@@ -105,3 +88,4 @@ In Progress
 - 2026-03-22: Verified dashboard phase 1 with `npm run lint` and `npm run build`
 - 2026-03-25: Completed feature `Add Pro Badge To Sidebar`
 - 2026-03-25: Completed feature `Auth Setup - NextAuth + GitHub Provider`
+- 2026-03-25: Completed feature `Auth Credentials - Email/Password Provider`
