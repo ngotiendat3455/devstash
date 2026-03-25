@@ -10,12 +10,12 @@ export const proxy = auth((request) => {
     return NextResponse.next();
   }
 
-  const signInUrl = new URL("/api/auth/signin", request.url);
+  const signInUrl = new URL("/sign-in", request.url);
   signInUrl.searchParams.set("callbackUrl", request.nextUrl.href);
 
   return NextResponse.redirect(signInUrl);
 });
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", "/profile"],
 };

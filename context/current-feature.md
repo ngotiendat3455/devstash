@@ -1,23 +1,51 @@
-# Current Feature
-
-## Feature Name
-
-<!-- No active feature loaded -->
+# Current Feature: Auth UI - Sign In, Register & Sign Out
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Goals will be populated by /feature load -->
+- Replace the default NextAuth pages with a custom `/sign-in` page.
+- Create a custom `/register` page that posts to `/api/auth/register`.
+- Support both email/password sign-in and GitHub sign-in in the custom auth UI.
+- Add form validation and visible error states for sign-in and registration.
+- Update the dashboard sidebar user area to show avatar or initials, user name, and profile entry point.
+- Add a sign-out action from the sidebar user menu.
 
 ## Notes
 
-<!-- Notes will be populated by /feature load -->
+- Spec source: `context/features/auth-spec-files/auth-phase-3-spec.md`
+- Sign-in page requirements:
+  - email and password fields
+  - "Sign in with GitHub" button
+  - link to `/register`
+  - form validation and error display
+- Register page requirements:
+  - name, email, password, confirm password fields
+  - validate passwords match and email format
+  - submit to `/api/auth/register`
+  - redirect to `/sign-in` on success
+- Sidebar requirements:
+  - show GitHub image when available, otherwise initials from name
+  - clicking the avatar should link to `/profile`
+  - provide a user menu/dropdown with a "Sign out" action
+- Create a reusable avatar component that handles both image and initials fallback
+- Testing target:
+  - `/sign-in` renders the custom page
+  - GitHub and credentials sign-in both work
+  - avatar/user details render in the sidebar
+  - sign-out works and redirects correctly
+  - `/register` creates an account and redirects to sign-in
 
 ## History
 
+- 2026-03-25: Verified auth phase 3 with `npm run lint` and `npm run build`
+- 2026-03-25: Added custom `/sign-in` and `/register` pages, reusable auth UI components, profile page, and a session-aware sidebar user menu with sign out
+- 2026-03-25: Updated auth redirects and custom pages config so protected routes use `/sign-in` instead of the default NextAuth page
+- 2026-03-25: Created branch `feature/auth-phase-3`
+- 2026-03-25: Set current feature to `Auth UI - Sign In, Register & Sign Out` and marked it `In Progress`
+- 2026-03-25: Synced current feature goals with `context/features/auth-spec-files/auth-phase-3-spec.md`
 - 2026-03-25: Verified auth phase 2 with `npm run lint` and `npm run build`
 - 2026-03-25: Added credentials sign-in with bcrypt validation, Zod auth schemas, and `POST /api/auth/register`
 - 2026-03-25: Confirmed the existing Prisma schema already includes `User.password`, so no migration was needed for auth phase 2

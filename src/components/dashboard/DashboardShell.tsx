@@ -20,7 +20,6 @@ import {
   Pin,
   Plus,
   Search,
-  Settings,
   Sparkles,
   Star,
   Terminal,
@@ -28,6 +27,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { SidebarUserMenu } from "@/components/dashboard/SidebarUserMenu";
+import { UserAvatar } from "@/components/shared/UserAvatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -402,28 +403,8 @@ function DashboardSidebar({
         </section>
       </div>
 
-      <div
-        className={cn(
-          "border-t border-white/10 px-5 py-4",
-          collapsed ? "flex justify-center" : "flex items-center justify-between",
-        )}
-      >
-        <div className={cn("flex items-center", collapsed ? "justify-center" : "gap-3")}>
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/90 text-sm font-semibold text-slate-950">
-            {data.user.initial}
-          </div>
-          {!collapsed ? (
-            <div className="space-y-0.5">
-              <p className="text-sm font-medium text-white">{data.user.name}</p>
-              <p className="text-xs text-slate-500">{data.user.email}</p>
-            </div>
-          ) : null}
-        </div>
-        {!collapsed ? (
-          <Button variant="ghost" size="icon" className="size-9 rounded-full">
-            <Settings className="size-4" />
-          </Button>
-        ) : null}
+      <div className={cn("border-t border-white/10 px-5 py-4", collapsed ? "flex justify-center" : "")}>
+        <SidebarUserMenu collapsed={collapsed} user={data.user} />
       </div>
     </div>
   );
@@ -518,6 +499,13 @@ export function DashboardShell({
               </div>
 
               <div className="ml-auto flex items-center gap-3">
+                <Link href="/profile" className="hidden sm:inline-flex">
+                  <UserAvatar
+                    className="size-10 text-sm"
+                    fallback={sidebarData.user.initials}
+                    image={sidebarData.user.image}
+                  />
+                </Link>
                 <Button variant="outline" className="hidden sm:inline-flex">
                   <Folder className="size-4" />
                   New Collection

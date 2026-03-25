@@ -12,7 +12,7 @@ export default async function DashboardPage() {
   const userEmail = session?.user?.email;
 
   if (!userEmail) {
-    redirect("/api/auth/signin?callbackUrl=/dashboard");
+    redirect("/sign-in?callbackUrl=/dashboard");
   }
 
   const [collections, { pinnedItems, recentItems }, sidebarData, stats] = await Promise.all([
