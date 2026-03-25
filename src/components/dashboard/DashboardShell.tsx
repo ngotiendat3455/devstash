@@ -92,6 +92,8 @@ const typeBadgeClasses: Record<string, string> = {
   pink: "border-pink-500/20 bg-pink-500/10 text-pink-300",
 };
 
+const PRO_SIDEBAR_ITEM_SLUGS = new Set(["files", "images"]);
+
 const typeIconMap: Record<string, LucideIcon> = {
   Code: Code2,
   "code-2": Code2,
@@ -126,11 +128,12 @@ function SidebarTypeRow({
   collapsed: boolean;
 }) {
   const Icon = typeIconMap[itemType.icon] ?? FileText;
+  const isProItemType = PRO_SIDEBAR_ITEM_SLUGS.has(itemType.slug);
 
   return (
     <Link
       href={itemType.href}
-      title={itemType.name}
+      title={isProItemType ? `${itemType.name} (Pro)` : itemType.name}
       className={cn(
         "flex w-full items-center rounded-xl px-3 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white",
         collapsed ? "justify-center" : "gap-3",
@@ -139,7 +142,14 @@ function SidebarTypeRow({
       <Icon className="size-4 shrink-0 text-slate-400" />
       {!collapsed ? (
         <>
-          <span className="flex-1 text-left">{itemType.label}</span>
+          <span className="flex flex-1 items-center gap-2 text-left">
+            <span>{itemType.label}</span>
+            {isProItemType ? (
+              <Badge className="shrink-0 border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+                Pro
+              </Badge>
+            ) : null}
+          </span>
           <span className="text-xs text-slate-500">{itemType.count}</span>
         </>
       ) : null}
