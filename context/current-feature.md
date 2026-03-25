@@ -1,40 +1,20 @@
-# Current Feature: Auth Setup - NextAuth + GitHub Provider
+# Current Feature
+
+## Feature Name
+
+<!-- No active feature loaded -->
 
 ## Status
 
-In Progress
+Not Started
 
 ## Goals
 
-- Install NextAuth v5 beta and `@auth/prisma-adapter`.
-- Set up the split auth config pattern for edge compatibility.
-- Add the GitHub OAuth provider.
-- Protect `/dashboard/*` routes using Next.js 16 proxy middleware.
-- Redirect unauthenticated users to the NextAuth sign-in page.
-- Add the auth route and extend the session type with `user.id`.
+<!-- Goals will be populated by /feature load -->
 
 ## Notes
 
-- Spec source: `context/features/auth-spec-files/auth-phase-1-spec.md`
-- Create:
-  - `src/auth.config.ts` for the edge-compatible provider config only
-  - `src/auth.ts` for the full NextAuth config with Prisma adapter and JWT sessions
-  - `src/app/api/auth/[...nextauth]/route.ts` to export the auth handlers
-  - `src/proxy.ts` to protect `/dashboard` routes with redirect behavior
-  - `src/types/next-auth.d.ts` to extend `Session` with `user.id`
-- Keep NextAuth's default sign-in page for testing; do not add a custom `pages.signIn`.
-- Follow the spec gotchas:
-  - use `next-auth@beta`
-  - keep proxy at `src/proxy.ts`
-  - use the named export pattern for the proxy
-  - use `session: { strategy: 'jwt' }` with the split config pattern
-- Required environment variables:
-  - `AUTH_SECRET`
-  - `AUTH_GITHUB_ID`
-  - `AUTH_GITHUB_SECRET`
-- Testing target:
-  - visiting `/dashboard` while signed out should redirect to sign-in
-  - GitHub auth should return the user to `/dashboard`
+<!-- Notes will be populated by /feature load -->
 
 ## History
 
@@ -101,3 +81,4 @@ In Progress
 - 2026-03-22: Implemented `/dashboard`, dark mode defaults, and shadcn-style UI primitives
 - 2026-03-22: Verified dashboard phase 1 with `npm run lint` and `npm run build`
 - 2026-03-25: Completed feature `Add Pro Badge To Sidebar`
+- 2026-03-25: Completed feature `Auth Setup - NextAuth + GitHub Provider`
