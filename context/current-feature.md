@@ -1,23 +1,46 @@
-# Current Feature
-
-## Feature Name
-
-<!-- No active feature loaded -->
+# Current Feature: Auth Credentials - Email/Password Provider
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Goals will be populated by /feature load -->
+- Add the Credentials provider for email/password authentication.
+- Use `bcryptjs` for password hashing and validation.
+- Add or confirm support for the `password` field on the `User` model.
+- Update the split auth config so `auth.config.ts` uses a placeholder credentials provider.
+- Override the credentials provider in `auth.ts` with real bcrypt-based validation.
+- Create `POST /api/auth/register` for user registration.
+- Preserve GitHub OAuth alongside credentials sign-in.
 
 ## Notes
 
-<!-- Notes will be populated by /feature load -->
+- Spec source: `context/features/auth-spec-files/auth-phase-2-spec.md`
+- Registration route requirements:
+  - accept `name`, `email`, `password`, `confirmPassword`
+  - validate passwords match
+  - reject duplicate users
+  - hash password with `bcryptjs`
+  - create the user and return a success/error response
+- Split config pattern note:
+  - `src/auth.config.ts` should contain a credentials provider with `authorize: () => null`
+  - `src/auth.ts` should override that provider with the actual bcrypt validation logic
+- Testing target:
+  - `curl` registration request succeeds for a new user
+  - `/api/auth/signin` allows email/password sign-in
+  - successful sign-in redirects to `/dashboard`
+  - GitHub OAuth still works
+- Reference: `https://authjs.dev/getting-started/authentication/credentials`
 
 ## History
 
+- 2026-03-25: Verified auth phase 2 with `npm run lint` and `npm run build`
+- 2026-03-25: Added credentials sign-in with bcrypt validation, Zod auth schemas, and `POST /api/auth/register`
+- 2026-03-25: Confirmed the existing Prisma schema already includes `User.password`, so no migration was needed for auth phase 2
+- 2026-03-25: Created branch `feature/auth-phase-2`
+- 2026-03-25: Set current feature to `Auth Credentials - Email/Password Provider` and marked it `In Progress`
+- 2026-03-25: Synced current feature goals with `context/features/auth-spec-files/auth-phase-2-spec.md`
 - 2026-03-25: Verified auth phase 1 with `npm run lint` and `npm run build`
 - 2026-03-25: Implemented NextAuth v5 beta with Prisma adapter, GitHub provider, session typing, `/api/auth/[...nextauth]`, and `/dashboard` protection via `src/proxy.ts`
 - 2026-03-25: Created branch `feature/auth-phase-1`
