@@ -1,23 +1,48 @@
-# Current Feature
-
-## Feature Name
-
-<!-- No active feature loaded -->
+# Current Feature: Auth Setup - NextAuth + GitHub Provider
 
 ## Status
 
-Not Started
+In Progress
 
 ## Goals
 
-<!-- Goals will be populated by /feature load -->
+- Install NextAuth v5 beta and `@auth/prisma-adapter`.
+- Set up the split auth config pattern for edge compatibility.
+- Add the GitHub OAuth provider.
+- Protect `/dashboard/*` routes using Next.js 16 proxy middleware.
+- Redirect unauthenticated users to the NextAuth sign-in page.
+- Add the auth route and extend the session type with `user.id`.
 
 ## Notes
 
-<!-- Notes will be populated by /feature load -->
+- Spec source: `context/features/auth-spec-files/auth-phase-1-spec.md`
+- Create:
+  - `src/auth.config.ts` for the edge-compatible provider config only
+  - `src/auth.ts` for the full NextAuth config with Prisma adapter and JWT sessions
+  - `src/app/api/auth/[...nextauth]/route.ts` to export the auth handlers
+  - `src/proxy.ts` to protect `/dashboard` routes with redirect behavior
+  - `src/types/next-auth.d.ts` to extend `Session` with `user.id`
+- Keep NextAuth's default sign-in page for testing; do not add a custom `pages.signIn`.
+- Follow the spec gotchas:
+  - use `next-auth@beta`
+  - keep proxy at `src/proxy.ts`
+  - use the named export pattern for the proxy
+  - use `session: { strategy: 'jwt' }` with the split config pattern
+- Required environment variables:
+  - `AUTH_SECRET`
+  - `AUTH_GITHUB_ID`
+  - `AUTH_GITHUB_SECRET`
+- Testing target:
+  - visiting `/dashboard` while signed out should redirect to sign-in
+  - GitHub auth should return the user to `/dashboard`
 
 ## History
 
+- 2026-03-25: Verified auth phase 1 with `npm run lint` and `npm run build`
+- 2026-03-25: Implemented NextAuth v5 beta with Prisma adapter, GitHub provider, session typing, `/api/auth/[...nextauth]`, and `/dashboard` protection via `src/proxy.ts`
+- 2026-03-25: Created branch `feature/auth-phase-1`
+- 2026-03-25: Set current feature to `Auth Setup - NextAuth + GitHub Provider` and marked it `In Progress`
+- 2026-03-25: Synced current feature goals with `context/features/auth-spec-files/auth-phase-1-spec.md`
 - 2026-03-25: Verified add pro badge to sidebar with `npm run lint` and `npm run build`
 - 2026-03-25: Added `Pro` badges to the Files and Images sidebar item type links in `/dashboard`
 - 2026-03-25: Created branch `feature/add-pro-badge-to-sidebar`
